@@ -14,17 +14,17 @@ public class Calculator {
 		func.put(MULTIPL, new Mult());
 	}
 
-	public int[] calc(int[] arr) {
-		Boolean stop = false;
+	public int[] calc( CalcEntity arrC ) {
+		
 		int i = 0;
-		int len = arr.length;
-		while (i <= len && !stop && i != 99) {
-			arr = circle(arr, i, stop);
-			i = +4;
+		int len = arrC.getArr().length;
+		while (!arrC.isStop()) {
+			arrC.setArr(circle(arrC, i));
+			i = i+ 4;
 
 		}
 
-		return arr;
+		return arrC.getArr();
 
 	}
 
@@ -32,31 +32,41 @@ public class Calculator {
 		return i == STOP ? true : false;
 	}
 
-	public int[] circle(int[] arr, int i, Boolean stop) {
-
+	public int[] circle(CalcEntity arrC,  int i) {
+		int[] arr= arrC.getArr();
+		
 		for (int z = 0; z <= 3; z++) {
-			if (isStop(arr[z + i])) {
-				stop = true;
-				return arr;
-			}
+		
 			switch (z) {
 
 			case 0:
+				if (isStop(arr[z + i])) {
+					arrC.setStop(true);
+					System.out.println("index stop - "+(z+i)+" number- "+ arr[z+i]);
+					return arr;
+				}
+				
 				if (!func.keySet().contains(arr[z + i])) {
 
 					System.out.println("not correct func " + arr[z + i] + "index= " + (i + z));
-					stop = true;
+					arrC.setStop(true);
 					return arr;
 				}
-
+				break;
 			case 3:
+				int num1 = arr[i + 1];
+				int num2 = arr[i + 2];
+				SimpleCalc doFunc = func.get(arr[i]);
+				
+				int aftetFunc= doFunc.calc(num1, num2);
 
-				arr[i + 3] = func.get(arr[i]).calc(arr[i + 1], arr[i + 2]);
-
+				arr[arr[i + 3]] = aftetFunc;
+				break;
 			}
 
 		}
 		return arr;
+
 	}
 
 	public class Sum implements SimpleCalc {

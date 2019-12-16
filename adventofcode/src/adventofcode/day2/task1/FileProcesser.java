@@ -9,7 +9,7 @@ public class FileProcesser {
 
 	public String readFile() throws IOException {
 
-		BufferedReader bufferedReader = new BufferedReader(new FileReader("C:/1/1.txt"));
+		BufferedReader bufferedReader = new BufferedReader(new FileReader("C:/Cobalt/2.txt"));
 		String s = bufferedReader.readLine();
 		return s;
 
